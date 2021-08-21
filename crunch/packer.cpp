@@ -179,11 +179,14 @@ void Packer::SaveJson(const string& name, ofstream& json, bool trim, bool rotate
         if (rotate)
 			json << ",\"rotated\":" << (points[i].rot ? "true" : "false");
 
-        if (trim)
+		bool trimmed = (bitmaps[i]->width != bitmaps[i]->frameW) ||
+			(bitmaps[i]->height != bitmaps[i]->frameH);
+
+        if (trim && trimmed)
         {
 			json << ",\"trimmed\":true";
-			json << ",\"spriteSourceSize\":{ \"x\":" << bitmaps[i]->frameX << ",";
-			json << "\"y\":" << bitmaps[i]->frameY << ",";
+			json << ",\"spriteSourceSize\":{ \"x\":" << -bitmaps[i]->frameX << ",";
+			json << "\"y\":" << -bitmaps[i]->frameY << ",";
 			json << "\"w\":" << bitmaps[i]->width << ",";
 			json << "\"h\":" << bitmaps[i]->height << "},";
 
