@@ -409,19 +409,17 @@ int main(int argc, const char* argv[])
             cout << "writing json: " << outputDir << name << ".json" << endl;
         
         ofstream json(outputDir + name + ".json");
-        json << '{' << endl;
-        json << "\t\"textures\":[" << endl;
+		json << "{\"textures\":[" << endl;
         for (size_t i = 0; i < packers.size(); ++i)
         {
-            json << "\t\t{" << endl;
+			json << "{" << endl;
             packers[i]->SaveJson(name + to_string(i), json, optTrim, optRotate);
-            json << "\t\t}";
+			json << "}";
             if (i + 1 < packers.size())
                 json << ',';
             json << endl;
         }
-        json << "\t]" << endl;
-        json << '}';
+		json << "]}" << endl;
     }
     
     //Save the new hash

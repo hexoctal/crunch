@@ -6,6 +6,7 @@ It is designed using libraries with permissible licenses, so you are able to use
 
 ### Features
 
+- Texture Packer style
 - Export XML, JSON, or binary data
 - Trim excess transparency
 - Rotate images to fit
@@ -40,6 +41,20 @@ Where `images.png` is the packed image, `images.xml` is an xml file describing w
 
 There is also an option to use a binary format instead of xml.
 
+### Build
+
+You can build crunch using CMake with the following commands inside the root
+directory of the repository:
+
+```shell
+mkd build
+cd build
+cmake ..
+make
+```
+
+You will find the executable file `crunch` inside the directory `build`.
+
 ### Usage
 
 `crunch [OUTPUT] [INPUT1,INPUT2,INPUT3...] [OPTIONS...]`
@@ -55,6 +70,13 @@ bin/atlases/atlas.png
 bin/atlases/atlas.json
 bin/atlases/atlas.hash
 ```
+
+Or:
+
+`crunch atlases/atlas images -j -p -t -u -v -r -p8 -s4096`
+
+To limit the size of each atlas image to 4096x4096 and a padding of 8px between
+each image in the atlas texture.
 
 ### Options
 

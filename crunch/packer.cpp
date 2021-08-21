@@ -165,29 +165,38 @@ void Packer::SaveBin(const string& name, ofstream& bin, bool trim, bool rotate)
 
 void Packer::SaveJson(const string& name, ofstream& json, bool trim, bool rotate)
 {
-    json << "\t\t\t\"name\":\"" << name << "\"," << endl;
-    json << "\t\t\t\"images\":[" << endl;
+	json << "\"image\":\"" << name << ".png\"," << endl;
+	json << "\"frames\":[" << endl;
     for (size_t i = 0, j = bitmaps.size(); i < j; ++i)
     {
-        json << "\t\t\t\t{ ";
-        json << "\"n\":\"" << bitmaps[i]->name << "\", ";
-        json << "\"x\":" << points[i].x << ", ";
-        json << "\"y\":" << points[i].y << ", ";
-        json << "\"w\":" << bitmaps[i]->width << ", ";
-        json << "\"h\":" << bitmaps[i]->height;
+		json << "{";
+		json << "\"filename\":\"" << bitmaps[i]->name << "\",";
+		json << "\"frame\":{\"x\":" << points[i].x << ",";
+		json << "\"y\":" << points[i].y << ",";
+		json << "\"w\":" << bitmaps[i]->width << ",";
+		json << "\"h\":" << bitmaps[i]->height << "}";
+
+        if (rotate)
+			json << ",\"rotated\":" << (points[i].rot ? "true" : "false");
+
         if (trim)
         {
-            json << ", \"fx\":" << bitmaps[i]->frameX << ", ";
-            json << "\"fy\":" << bitmaps[i]->frameY << ", ";
-            json << "\"fw\":" << bitmaps[i]->frameW << ", ";
-            json << "\"fh\":" << bitmaps[i]->frameH;
+			json << ",\"trimmed\":true";
+			json << ",\"spriteSourceSize\":{ \"x\":" << bitmaps[i]->frameX << ",";
+			json << "\"y\":" << bitmaps[i]->frameY << ",";
+			json << "\"w\":" << bitmaps[i]->width << ",";
+			json << "\"h\":" << bitmaps[i]->height << "},";
+
+			json << "\"sourceSize\":{\"w\":" << bitmaps[i]->frameW << ",";
+			json << "\"h\":" << bitmaps[i]->frameH << "}";
+		} else {
+			json << ",\"trimmed\":false";
         }
-        if (rotate)
-            json << ", \"r\":" << (points[i].rot ? "true" : "false");
-        json << " }";
+
+        json << "}";
         if(i != bitmaps.size() -1)
             json << ",";
         json << endl;
     }
-    json << "\t\t\t]" << endl;
+    json << "]" << endl;
 }
