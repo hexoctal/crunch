@@ -84,7 +84,7 @@ void Packer::Pack(vector<Bitmap*>& bitmaps, bool verbose, bool unique, bool rota
             p.y = rect.y;
             p.dupID = -1;
             p.rot = rotate && bitmap->width != (rect.width - pad);
-            
+
             points.push_back(p);
             this->bitmaps.push_back(bitmap);
             bitmaps.pop_back();
@@ -100,7 +100,7 @@ void Packer::Pack(vector<Bitmap*>& bitmaps, bool verbose, bool unique, bool rota
         height /= 2;
 }
 
-void Packer::SavePng(const string& file)
+void Packer::SavePng(const string& file, bool flip)
 {
     Bitmap bitmap(width, height);
     for (size_t i = 0, j = bitmaps.size(); i < j; ++i)
@@ -113,6 +113,8 @@ void Packer::SavePng(const string& file)
                 bitmap.CopyPixels(bitmaps[i], points[i].x, points[i].y);
         }
     }
+	if (flip)
+		bitmap.FlipY();
     bitmap.SaveAs(file);
 }
 

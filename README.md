@@ -73,7 +73,7 @@ bin/atlases/atlas.hash
 
 Or:
 
-`crunch atlases/atlas images -j -p -t -u -v -r -p8 -s4096`
+`crunch atlases/atlas images -j -F -t -u -v -r -p8 -s4096`
 
 To limit the size of each atlas image to 4096x4096 and a padding of 8px between
 each image in the atlas texture.
@@ -92,6 +92,7 @@ each image in the atlas texture.
 | -f            | --force       | ignore caching, forcing the packer to repack
 | -u            | --unique      | remove duplicate bitmaps from the atlas
 | -r            | --rotate      | enabled rotating bitmaps 90 degrees clockwise when packing
+| -F            | --flip        | flips the final image vertically (to use with OpenGL for example)
 | -s#           | --size#       | max atlas size (# can be 4096, 2048, 1024, 512, 256, 128, or 64)
 | -p#           | --pad#        | padding between images (# can be from 0 to 16)
 

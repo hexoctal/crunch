@@ -50,6 +50,7 @@ struct Bitmap
     void SaveAs(const string& file);
     void CopyPixels(const Bitmap* src, int tx, int ty);
     void CopyPixelsRot(const Bitmap* src, int tx, int ty);
+	void FlipY();
     bool Equals(const Bitmap* other) const;
 };
 

@@ -88,6 +88,7 @@ static bool optVerbose;
 static bool optForce;
 static bool optUnique;
 static bool optRotate;
+static bool optFlip;
 static vector<Bitmap*> bitmaps;
 static vector<Packer*> packers;
 
@@ -236,6 +237,7 @@ int main(int argc, const char* argv[])
     optVerbose = false;
     optForce = false;
     optUnique = false;
+	optFlip = false;
     for (int i = 3; i < argc; ++i)
     {
         string arg = argv[i];
@@ -257,6 +259,8 @@ int main(int argc, const char* argv[])
             optForce = true;
         else if (arg == "-u" || arg == "--unique")
             optUnique = true;
+        else if (arg == "-F" || arg == "--flip")
+			optFlip = true;
         else if (arg == "-r" || arg == "--rotate")
             optRotate = true;
         else if (arg.find("--size") == 0)
@@ -306,6 +310,7 @@ int main(int argc, const char* argv[])
     -v  --verbose           print to the debug console as the packer works
     -f  --force             ignore the hash, forcing the packer to repack
     -u  --unique            remove duplicate bitmaps from the atlas
+    -F  --flip              flips each texture on the y axis (vertically)
     -r  --rotate            enabled rotating bitmaps 90 degrees clockwise when packing
     -s# --size#             max atlas size (# can be 4096, 2048, 1024, 512, or 256)
     -p# --pad#              padding between images (# can be from 0 to 16)*/
@@ -321,6 +326,7 @@ int main(int argc, const char* argv[])
         cout << "\t--verbose: " << (optVerbose ? "true" : "false") << endl;
         cout << "\t--force: " << (optForce ? "true" : "false") << endl;
         cout << "\t--unique: " << (optUnique ? "true" : "false") << endl;
+        cout << "\t--flip: " << (optFlip ? "true" : "false") << endl;
         cout << "\t--rotate: " << (optRotate ? "true" : "false") << endl;
         cout << "\t--size: " << optSize << endl;
         cout << "\t--pad: " << optPadding << endl;
@@ -373,7 +379,7 @@ int main(int argc, const char* argv[])
     {
         if (optVerbose)
             cout << "writing png: " << outputDir << name << to_string(i) << ".png" << endl;
-        packers[i]->SavePng(outputDir + name + to_string(i) + ".png");
+        packers[i]->SavePng(outputDir + name + to_string(i) + ".png", optFlip);
     }
     
     //Save the atlas binary

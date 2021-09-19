@@ -181,6 +181,26 @@ void Bitmap::CopyPixelsRot(const Bitmap* src, int tx, int ty)
             data[(ty + y) * width + (tx + x)] = src->data[(r - x) * src->width + y];
 }
 
+void Bitmap::FlipY()
+{
+	uint32_t pitch = width * 4;
+	uint32_t *temp = new uint32_t[pitch];
+	uint32_t *row1, *row2;
+
+	for (uint32_t i = 0; i < (height/2); i++) {
+		//Get pointers to the two rows to swap
+		row1 = data + i * width;
+		row2 = data + (height - i - 1) * width;
+
+		//Swap rows
+		memcpy(temp, row1, pitch);
+		memcpy(row1, row2, pitch);
+		memcpy(row2, temp, pitch);
+	}
+
+	delete[] temp;
+}
+
 bool Bitmap::Equals(const Bitmap* other) const
 {
     if (width == other->width && height == other->height)
